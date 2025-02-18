@@ -1,0 +1,1 @@
+print("Hello World! Iniciando aos estudos com Python!")
