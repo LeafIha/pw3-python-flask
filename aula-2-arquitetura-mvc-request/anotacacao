@@ -1,18 +1,16 @@
-# importando o flask para a aplicação
-from flask import Flask, render_template
+Arquitetura MVC nada mais é que um padrão de arquitetura de software que separa sua aplicação em 3 camadas
+    3 Pastas para dividir o projeto
+        models - entidades do banco de dados 
+        views - camada de interação do usuario, html, "front-end"
+        controllers - recebe as requisições do usuário.
+O cliente acessa o site, manda um request para o site (fazendo cadastro), cai na pasta controllers; vai ter a lógica para chamar a entidade usuário (bd), o model devolve as informações e o controller envia para a View 
 
-# Carregando o flask na variável app
-app = Flask(__name__, template_folder='views')
 
 # Criando a primeira rota do site
-
-
 @app.route("/")
 # Criando função no python
 def home():
     return render_template('index.html')
-
-
 # Criando rota games
 @app.route("/games")
 # Criando função no python
@@ -32,7 +30,3 @@ def games():
                            jogadores=jogadores,
                            jogos=jogos)
 
-
-# Iniciando o servidor no localhost, porta 5000, o debug ativado para checagem de erros.
-if __name__ == '__main__':
-    app.run(host='localhost', port=5000, debug=True)
