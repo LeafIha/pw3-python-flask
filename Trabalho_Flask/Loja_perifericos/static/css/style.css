@@ -1,0 +1,85 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+/*
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}*/
+
+/*
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}*/
+
+.btn-custom {
+    background: #212529;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    background: #424649;
+    color: white;
+    transform: scale(1.05);
+}
+
+.form-container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.navbar-brand img {
+    max-height: 60px;  /* controla a altura máxima */
+    width: auto;       /* mantém a proporção */
+    transition: all 0.3s; /* animação suave */
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05); /* efeito hover sutil */
+}
+
+
+.card-img-top.product-image {
+    max-width: 280px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    margin: 0 auto;
+    display: block;
+    padding: 15px;
+}
+
+.row-cols-md-3 {
+    justify-content: center;
+}
+
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teclados - Xgear</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo2.png" alt="Logo Xgear" style="width: 90px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/cadastro_dict1">Cadastro</a>
+                    <a class="nav-link" href="/mouse">Mouse</a>
+                    <a class="nav-link" href="/teclado">Teclados</a>
+                    <a class="nav-link" href="/headsets">Headsets</a>
+                    <a class="nav-link" href="/mousepads">Mousepads</a>
+                    <a class="nav-link" href="/produtos">Produtos</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1">
+        <div class="container my-5">
+            <div class="row align-items-center">
+                <div class="col-md-6 order-md-2">
+                    <img src="https://i.pinimg.com/736x/4b/c9/dd/4bc9ddf705f22b7be9c7b0dca34604e6.jpg" 
+                         class="img-fluid rounded-3 shadow" alt="Teclado Mecânico">
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <h1 class="display-4 fw-bold mb-4">Teclado Epomaker RT100 </h1>
+                    <div class="specs-box bg-light p-4 rounded-3">
+                        <h3>Características Principais</h3>
+                        <ul class="list-unstyled">
+                            <li><strong>Switch:</strong> Epomaker Flamingo Switch (linear silencioso)</li>
+                            <li><strong>Layout:</strong> 100% Completo</li>
+                            <li><strong>Material:</strong> Chassi em plástico ABS + estrutura interna em alumínio</li>
+                            <li><strong>Iluminação:</strong> RGB 16.8M Cores</li>
+                            <li><strong>Conexão:</strong>USB-C, Bluetooth 5.1 e 2.4 GHz sem fio</li>
+                        </ul>
+                        <h3 class="mt-4 text-danger">R$ 1.299,90</h3>
+                        <div class="mt-4">
+                            <button class="btn btn-outline-dark ms-2">Adicionar ao Carrinho</button>
+                            <button class="btn btn-outline-dark ms-2">Detalhes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Contato</h5>
+                    <p><i class="fas fa-phone me-2"></i>(11) 9999-9999</p>
+                    <p><i class="fas fa-envelope me-2"></i>contato@xgear.com</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Redes Sociais</h5>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-youtube fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Boletim Informativo</h5>
+                    <form>
+                        <input type="email" class="form-control mb-2" placeholder="Seu e-mail">
+                        <button class="btn btn-outline-light">Assinar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="bg-black text-center py-3">
+            <p class="mb-0">&copy; 2025 Xgear. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

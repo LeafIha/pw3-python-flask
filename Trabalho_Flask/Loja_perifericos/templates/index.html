@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xgear - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo2.png" alt="Logo Xgear" style="width: 90px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link active" href="/">Home</a>
+                    <a class="nav-link" href="/cadastro_dict1">Cadastro</a>
+                    <a class="nav-link" href="/mouse">Mouse</a>
+                    <a class="nav-link" href="/teclado">Teclados</a>
+                    <a class="nav-link" href="/headsets">Headsets</a>
+                    <a class="nav-link" href="/mousepads">Mousepads</a>
+                    <a class="nav-link" href="/produtos">Produtos</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1">
+
+        <!-- painel -->
+        <section class="hero bg-dark text-light text-center py-5">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-4">Performance Extraordinária</h1>
+                <p class="lead mb-4">Os melhores periféricos para gamers profissionais</p>
+            </div>
+        </section>
+
+        <div class="container my-5">
+            <h2 class="text-center mb-4">Destaques</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7"
+                            class="card-img-top product-image" alt="Mouse">
+                        <div class="card-body text-center">
+                            . <h5 class="card-title">Mouses Profissionais</h5>
+                            <a href="/mouse" class="btn btn-outline-dark ms-2">Ver Mais</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="https://plus.unsplash.com/premium_photo-1664194583917-b0ba07c4ce2a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHRlY2xhZG8lMjBlJTIweW9vc28lMjB6Njg2fGVufDB8fDB8fHww"
+                            class="card-img-top product-image" alt="Teclado">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Teclados Mecânicos</h5>
+                            <a href="/teclado" class="btn btn-outline-dark ms-2">Ver Mais</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1585298723682-7115561c51b7?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D class="
+                            card-img-top product-image alt="Headset">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Headsets Gamer</h5>
+                            <a href="/headsets" class="btn btn-outline-dark ms-2">Ver Mais</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Contato</h5>
+                    <p><i class="fas fa-phone me-2"></i>(11) 9999-9999</p>
+                    <p><i class="fas fa-envelope me-2"></i>contato@xgear.com</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Redes Sociais</h5>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-youtube fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Boletim Informativo</h5>
+                    <form>
+                        <input type="email" class="form-control mb-2" placeholder="Seu e-mail">
+                        <button class="btn btn-outline-light">Assinar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="bg-black text-center py-3">
+            <p class="mb-0">&copy; 2025 Xgear. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
