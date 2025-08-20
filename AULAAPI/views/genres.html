@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎭 Gêneros - CineExplorer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 80px 0 60px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ff6b6b;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-home {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 10px 20px;
+            border: 1px solid #4ecdc4;
+            border-radius: 25px;
+        }
+
+        .back-home:hover {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+
+        /* Genres Grid */
+        .genres-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .genre-card {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 40px 25px;
+            border-radius: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .genre-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.9), rgba(78, 205, 196, 0.9));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .genre-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .genre-card:hover::before {
+            opacity: 1;
+        }
+
+        .genre-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .genre-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .genre-name {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .genre-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+            color: #4ecdc4;
+        }
+
+        .loading i {
+            font-size: 3rem;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .genres-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .genre-card {
+                padding: 30px 20px;
+            }
+            
+            .genre-icon {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">🎬 CineExplorer</a>
+                <div class="nav-links">
+                    <a href="/popular">📈 Populares</a>
+                    <a href="/top-rated">⭐ Mais Avaliados</a>
+                    <a href="/genres">🎭 Gêneros</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">🎭 Gêneros</h1>
+            <p class="page-subtitle">Explore filmes por categoria e descubra novos favoritos</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-film"></i>
+                Categorias Disponíveis
+            </h2>
+            <a href="/" class="back-home">
+                <i class="fas fa-home"></i>
+                Voltar ao Início
+            </a>
+        </div>
+
+        <!-- Genres Grid -->
+        {% if genres and genres.success %}
+            <div class="genres-grid">
+                {% for genre in genres.genres %}
+                <a href="/genre/{{ genre.id }}" class="genre-card">
+                    <div class="genre-content">
+                        <div class="genre-icon">
+                            {% if genre.name == 'Ação' %}
+                                <i class="fas fa-running"></i>
+                            {% elif genre.name == 'Comédia' %}
+                                <i class="fas fa-laugh"></i>
+                            {% elif genre.name == 'Drama' %}
+                                <i class="fas fa-theater-masks"></i>
+                            {% elif genre.name == 'Terror' %}
+                                <i class="fas fa-ghost"></i>
+                            {% elif genre.name == 'Ficção Científica' %}
+                                <i class="fas fa-rocket"></i>
+                            {% elif genre.name == 'Romance' %}
+                                <i class="fas fa-heart"></i>
+                            {% elif genre.name == 'Aventura' %}
+                                <i class="fas fa-compass"></i>
+                            {% elif genre.name == 'Animação' %}
+                                <i class="fas fa-magic"></i>
+                            {% elif genre.name == 'Documentário' %}
+                                <i class="fas fa-camera"></i>
+                            {% elif genre.name == 'Thriller' %}
+                                <i class="fas fa-exclamation-triangle"></i>
+                            {% elif genre.name == 'Crime' %}
+                                <i class="fas fa-user-secret"></i>
+                            {% elif genre.name == 'Mistério' %}
+                                <i class="fas fa-search"></i>
+                            {% elif genre.name == 'Família' %}
+                                <i class="fas fa-users"></i>
+                            {% elif genre.name == 'Guerra' %}
+                                <i class="fas fa-shield-alt"></i>
+                            {% elif genre.name == 'História' %}
+                                <i class="fas fa-landmark"></i>
+                            {% elif genre.name == 'Música' %}
+                                <i class="fas fa-music"></i>
+                            {% elif genre.name == 'Western' %}
+                                <i class="fas fa-hat-cowboy"></i>
+                            {% else %}
+                                <i class="fas fa-film"></i>
+                            {% endif %}
+                        </div>
+                        <div class="genre-name">{{ genre.name }}</div>
+                        <div class="genre-description">
+                            {% if genre.name == 'Ação' %}
+                                Filmes cheios de adrenalina e sequências emocionantes
+                            {% elif genre.name == 'Comédia' %}
+                                Histórias divertidas para rir e se divertir
+                            {% elif genre.name == 'Drama' %}
+                                Narrativas profundas e emocionalmente envolventes
+                            {% elif genre.name == 'Terror' %}
+                                Suspense e sustos para os corajosos
+                            {% elif genre.name == 'Ficção Científica' %}
+                                Mundos futuristas e tecnologia avançada
+                            {% elif genre.name == 'Romance' %}
+                                Histórias de amor e relacionamentos
+                            {% elif genre.name == 'Aventura' %}
+                                Jornadas épicas e descobertas incríveis
+                            {% elif genre.name == 'Animação' %}
+                                Arte animada para todas as idades
+                            {% elif genre.name == 'Documentário' %}
+                                Histórias reais e fatos documentados
+                            {% elif genre.name == 'Thriller' %}
+                                Suspense psicológico e tensão constante
+                            {% elif genre.name == 'Crime' %}
+                                Histórias de detetives e investigações
+                            {% elif genre.name == 'Mistério' %}
+                                Enigmas e quebra-cabeças para resolver
+                            {% elif genre.name == 'Família' %}
+                                Filmes para todas as idades
+                            {% elif genre.name == 'Guerra' %}
+                                Histórias de conflitos e heroísmo
+                            {% elif genre.name == 'História' %}
+                                Fatos históricos e épocas passadas
+                            {% elif genre.name == 'Música' %}
+                                Filmes sobre música e artistas
+                            {% elif genre.name == 'Western' %}
+                                Faroeste e histórias do velho oeste
+                            {% else %}
+                                Explore este gênero fascinante
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Carregando gêneros...</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

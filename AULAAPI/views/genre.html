@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ current_genre.name if current_genre else 'Gênero' }} - CineExplorer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 80px 0 60px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .genre-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .genre-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .genre-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ff6b6b;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-home {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 10px 20px;
+            border: 1px solid #4ecdc4;
+            border-radius: 25px;
+        }
+
+        .back-home:hover {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+
+        /* Movie Grid */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 375px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        .movie-info {
+            padding: 25px;
+        }
+
+        .movie-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .movie-overview {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .movie-year {
+            color: #4ecdc4;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .movie-rating {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .movie-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .genre-tag {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+            color: #4ecdc4;
+        }
+
+        .loading i {
+            font-size: 3rem;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">🎬 CineExplorer</a>
+                <div class="nav-links">
+                    <a href="/popular">📈 Populares</a>
+                    <a href="/top-rated">⭐ Mais Avaliados</a>
+                    <a href="/genres">🎭 Gêneros</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">{{ current_genre.name if current_genre else 'Gênero' }}</h1>
+            <p class="page-subtitle">Explore filmes desta categoria</p>
+            
+            {% if current_genre %}
+            <div class="genre-info">
+                <div class="genre-icon">
+                    {% if current_genre.name == 'Ação' %}
+                        <i class="fas fa-running"></i>
+                    {% elif current_genre.name == 'Comédia' %}
+                        <i class="fas fa-laugh"></i>
+                    {% elif current_genre.name == 'Drama' %}
+                        <i class="fas fa-theater-masks"></i>
+                    {% elif current_genre.name == 'Terror' %}
+                        <i class="fas fa-ghost"></i>
+                    {% elif current_genre.name == 'Ficção Científica' %}
+                        <i class="fas fa-rocket"></i>
+                    {% elif current_genre.name == 'Romance' %}
+                        <i class="fas fa-heart"></i>
+                    {% elif current_genre.name == 'Aventura' %}
+                        <i class="fas fa-compass"></i>
+                    {% elif current_genre.name == 'Animação' %}
+                        <i class="fas fa-magic"></i>
+                    {% elif current_genre.name == 'Documentário' %}
+                        <i class="fas fa-camera"></i>
+                    {% elif current_genre.name == 'Thriller' %}
+                        <i class="fas fa-exclamation-triangle"></i>
+                    {% elif current_genre.name == 'Crime' %}
+                        <i class="fas fa-user-secret"></i>
+                    {% elif current_genre.name == 'Mistério' %}
+                        <i class="fas fa-search"></i>
+                    {% elif current_genre.name == 'Família' %}
+                        <i class="fas fa-users"></i>
+                    {% elif current_genre.name == 'Guerra' %}
+                        <i class="fas fa-shield-alt"></i>
+                    {% elif current_genre.name == 'História' %}
+                        <i class="fas fa-landmark"></i>
+                    {% elif current_genre.name == 'Música' %}
+                        <i class="fas fa-music"></i>
+                    {% elif current_genre.name == 'Western' %}
+                        <i class="fas fa-hat-cowboy"></i>
+                    {% else %}
+                        <i class="fas fa-film"></i>
+                    {% endif %}
+                </div>
+                <div class="genre-description">
+                    {% if current_genre.name == 'Ação' %}
+                        Filmes cheios de adrenalina e sequências emocionantes
+                    {% elif current_genre.name == 'Comédia' %}
+                        Histórias divertidas para rir e se divertir
+                    {% elif current_genre.name == 'Drama' %}
+                        Narrativas profundas e emocionalmente envolventes
+                    {% elif current_genre.name == 'Terror' %}
+                        Suspense e sustos para os corajosos
+                    {% elif current_genre.name == 'Ficção Científica' %}
+                        Mundos futuristas e tecnologia avançada
+                    {% elif current_genre.name == 'Romance' %}
+                        Histórias de amor e relacionamentos
+                    {% elif current_genre.name == 'Aventura' %}
+                        Jornadas épicas e descobertas incríveis
+                    {% elif current_genre.name == 'Animação' %}
+                        Arte animada para todas as idades
+                    {% elif current_genre.name == 'Documentário' %}
+                        Histórias reais e fatos documentados
+                    {% elif current_genre.name == 'Thriller' %}
+                        Suspense psicológico e tensão constante
+                    {% elif current_genre.name == 'Crime' %}
+                        Histórias de detetives e investigações
+                    {% elif current_genre.name == 'Mistério' %}
+                        Enigmas e quebra-cabeças para resolver
+                    {% elif current_genre.name == 'Família' %}
+                        Filmes para todas as idades
+                    {% elif current_genre.name == 'Guerra' %}
+                        Histórias de conflitos e heroísmo
+                    {% elif current_genre.name == 'História' %}
+                        Fatos históricos e épocas passadas
+                    {% elif current_genre.name == 'Música' %}
+                        Filmes sobre música e artistas
+                    {% elif current_genre.name == 'Western' %}
+                        Faroeste e histórias do velho oeste
+                    {% else %}
+                        Explore este gênero fascinante
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-film"></i>
+                Filmes de {{ current_genre.name if current_genre else 'Gênero' }}
+            </h2>
+            <a href="/genres" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                Voltar aos Gêneros
+            </a>
+        </div>
+
+        <!-- Movies Grid -->
+        {% if movies and movies.success %}
+            <div class="movie-grid">
+                {% for movie in movies.results %}
+                <a href="/movie/{{ movie.id }}" class="movie-card">
+                    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" 
+                         alt="{{ movie.title }}" class="movie-poster"
+                         onerror="this.src='https://via.placeholder.com/250x375/333/666?text={{ movie.title|replace(' ', '+') }}'">
+                    <div class="movie-info">
+                        <h3 class="movie-title">{{ movie.title }}</h3>
+                        
+                        {% if movie.overview %}
+                            <p class="movie-overview">{{ movie.overview }}</p>
+                        {% endif %}
+                        
+                        <div class="movie-meta">
+                            <span class="movie-year">
+                                {% if movie.release_date %}
+                                    {{ movie.release_date[:4] }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </span>
+                            <span class="movie-rating">
+                                <i class="fas fa-star"></i>
+                                {{ "%.1f"|format(movie.vote_average) }}
+                            </span>
+                        </div>
+                        
+                        {% if movie.genre_ids %}
+                            <div class="movie-genres">
+                                {% for genre_id in movie.genre_ids[:3] %}
+                                    <span class="genre-tag">{{ genre_id }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Carregando filmes do gênero...</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 CineExplorer - Sua Biblioteca de Filmes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ff6b6b;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .view-all {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .view-all:hover {
+            color: #ff6b6b;
+        }
+
+        /* Movie Grid */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .movie-year {
+            color: #4ecdc4;
+            font-size: 0.9rem;
+        }
+
+        .movie-rating {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .movie-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .genre-tag {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Genres Section */
+        .genres-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .genre-card {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .genre-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .genre-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .genre-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer p {
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .genres-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #4ecdc4;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">🎬 CineExplorer</a>
+                <div class="nav-links">
+                    <a href="/popular">📈 Populares</a>
+                    <a href="/top-rated">⭐ Mais Avaliados</a>
+                    <a href="/genres">🎭 Gêneros</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Descubra o Mundo do Cinema</h1>
+            <p>Milhares de filmes, séries e documentários em um só lugar</p>
+            
+            <form action="/search" method="POST" class="search-box">
+                <input type="text" name="searchQuery" class="search-input" 
+                       placeholder="Busque por filmes, atores, diretores..." required>
+                <button type="submit" class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Filmes Populares -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-fire"></i>
+                    Filmes Populares
+                </h2>
+                <a href="/popular" class="view-all">Ver Todos →</a>
+            </div>
+            
+            {% if popular_movies and popular_movies.success %}
+                <div class="movie-grid">
+                    {% for movie in popular_movies.results[:8] %}
+                    <a href="/movie/{{ movie.id }}" class="movie-card">
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" 
+                             alt="{{ movie.title }}" class="movie-poster"
+                             onerror="this.src='https://via.placeholder.com/200x300/333/666?text=Sem+Imagem'">
+                        <div class="movie-info">
+                            <h3 class="movie-title">{{ movie.title }}</h3>
+                            <div class="movie-meta">
+                                <span class="movie-year">
+                                    {% if movie.release_date %}
+                                        {{ movie.release_date[:4] }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </span>
+                                <span class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    {{ "%.1f"|format(movie.vote_average) }}
+                                </span>
+                            </div>
+                            <div class="movie-genres">
+                                {% for genre in movie.genre_ids[:2] %}
+                                    <span class="genre-tag">{{ genre }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Carregando filmes populares...</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Filmes Mais Avaliados -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i>
+                    Mais Bem Avaliados
+                </h2>
+                <a href="/top-rated" class="view-all">Ver Todos →</a>
+            </div>
+            
+            {% if top_rated and top_rated.success %}
+                <div class="movie-grid">
+                    {% for movie in top_rated.results[:8] %}
+                    <a href="/movie/{{ movie.id }}" class="movie-card">
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" 
+                             alt="{{ movie.title }}" class="movie-poster"
+                             onerror="this.src='https://via.placeholder.com/200x300/333/666?text=Sem+Imagem'">
+                        <div class="movie-info">
+                            <h3 class="movie-title">{{ movie.title }}</h3>
+                            <div class="movie-meta">
+                                <span class="movie-year">
+                                    {% if movie.release_date %}
+                                        {{ movie.release_date[:4] }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </span>
+                                <span class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    {{ "%.1f"|format(movie.vote_average) }}
+                                </span>
+                            </div>
+                            <div class="movie-genres">
+                                {% for genre in movie.genre_ids[:2] %}
+                                    <span class="genre-tag">{{ genre }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Carregando filmes mais avaliados...</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Gêneros -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-film"></i>
+                    Explorar por Gênero
+                </h2>
+                <a href="/genres" class="view-all">Ver Todos →</a>
+            </div>
+            
+            {% if genres and genres.success %}
+                <div class="genres-grid">
+                    {% for genre in genres.genres[:8] %}
+                    <a href="/genre/{{ genre.id }}" class="genre-card">
+                        <div class="genre-icon">
+                            {% if genre.name == 'Ação' %}
+                                <i class="fas fa-running"></i>
+                            {% elif genre.name == 'Comédia' %}
+                                <i class="fas fa-laugh"></i>
+                            {% elif genre.name == 'Drama' %}
+                                <i class="fas fa-theater-masks"></i>
+                            {% elif genre.name == 'Terror' %}
+                                <i class="fas fa-ghost"></i>
+                            {% elif genre.name == 'Ficção Científica' %}
+                                <i class="fas fa-rocket"></i>
+                            {% elif genre.name == 'Romance' %}
+                                <i class="fas fa-heart"></i>
+                            {% elif genre.name == 'Aventura' %}
+                                <i class="fas fa-compass"></i>
+                            {% else %}
+                                <i class="fas fa-film"></i>
+                            {% endif %}
+                        </div>
+                        <div class="genre-name">{{ genre.name }}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Carregando gêneros...</p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CineExplorer - Sua Biblioteca de Filmes</p>
+            <p>Desenvolvido com ❤️ para o 3º ano do Ensino Técnico da ETEC</p>
+        </div>
+    </footer>
+</body>
+</html>
